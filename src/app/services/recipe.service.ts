@@ -1,12 +1,12 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Recipe } from '../recipe/recipe.model';
 import { ingredients } from '../shared/ingredients.model';
 import { ShoppingListService } from './shopping-list.service';
 
 @Injectable()
 export class RecipeService {
-  recipeSelected = new EventEmitter<Recipe>();
-
+  recipesChanged = new Subject<Recipe[]>();
   constructor(private shoppingService: ShoppingListService) {}
 
   private recipes: Recipe[] = [
@@ -32,8 +32,25 @@ export class RecipeService {
     return this.recipes.slice();
   }
 
+  getRecipe(index: number) {
+    return this.recipes[index];
+  }
   ///here calling method in shopping-list.service
   addToShoppingList(ingredients: ingredients[]) {
     this.shoppingService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
   }
 }
