@@ -9,24 +9,33 @@ export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
   constructor(private shoppingService: ShoppingListService) {}
 
-  private recipes: Recipe[] = [
-    new Recipe(
-      'Zinger Burger',
-      'Yummy chicken zinger burgers!',
-      'https://www.wikihow.com/images/thumb/e/e4/Make-Zinger-Burgers-Step-15.jpg/v4-460px-Make-Zinger-Burgers-Step-15.jpg',
-      [new ingredients('Meat', 1), new ingredients('French Fries', 20)]
-    ),
-    new Recipe(
-      'Ginger-Sesame Steamed Vegetable Salad',
-      'Healthy salad !',
-      'https://cdn3.tmbi.com/toh/GoogleImagesPostCard/Ginger-Sesame-Steamed-Vegetable-Salad_exps173348_TH132104D06_28_3bC_RMS.jpg',
-      [
-        new ingredients('carrot', 5),
-        new ingredients('cuccumber', 2),
-        new ingredients('Avacado', 2),
-      ]
-    ),
-  ];
+  // private recipes: Recipe[] = [
+  //   new Recipe(
+  //     'Zinger Burger',
+  //     'Yummy chicken zinger burgers!',
+  //     'https://www.wikihow.com/images/thumb/e/e4/Make-Zinger-Burgers-Step-15.jpg/v4-460px-Make-Zinger-Burgers-Step-15.jpg',
+  //     [new ingredients('Meat', 1), new ingredients('French Fries', 20)]
+  //   ),
+  //   new Recipe(
+  //     'Ginger-Sesame Steamed Vegetable Salad',
+  //     'Healthy salad !',
+  //     'https://cdn3.tmbi.com/toh/GoogleImagesPostCard/Ginger-Sesame-Steamed-Vegetable-Salad_exps173348_TH132104D06_28_3bC_RMS.jpg',
+  //     [
+  //       new ingredients('carrot', 5),
+  //       new ingredients('cuccumber', 2),
+  //       new ingredients('Avacado', 2),
+  //     ]
+  //   ),
+  // ];
+
+  private recipes: Recipe[]=[];
+
+
+  setRecipes(recipes: Recipe[]){
+this.recipes = recipes;
+this.recipesChanged.next(this.recipes.slice());
+  }
+
 
   getRecipes() {
     return this.recipes.slice();
